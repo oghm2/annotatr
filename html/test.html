@@ -1,0 +1,71 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <title>Annotation test</title>
+        <link rel="stylesheet" href="demo.css" type="text/css" media="screen">
+        <link rel="stylesheet" href="demo-print.css" type="text/css" media="print">
+        <style type="text/css" media="screen">
+            #canvascontainer {
+                height: 300px;
+                left: 50%;
+                margin: -150px 0 0 -300px;
+                position: absolute;
+                top: 50%;
+                width: 600px;
+            }
+            #paper {
+                height: 300px;
+                left: 0;
+                position: absolute;
+                top: 0;
+                width: 300px;
+            }
+            h2 {
+                text-align: center;
+            }
+        </style>
+        <script type="text/javascript" src="js/jquery.js" charset="utf-8"></script>
+        <script type="text/javascript" src="js/paper.js"></script>
+        <script type="text/javascript" charset="utf-8">
+
+            var draw_mode = 0;
+
+            // Only executed our code once the DOM is ready.
+            $(document).ready(function() {
+                "use strict";
+                // Get a reference to the canvas object
+                var canvas = $('#paperc')[0];
+                //var canvas = document.getElementById('paperc');
+
+                // Create an empty project and a view for the canvas:
+                paper.setup(canvas);
+                // Create a Paper.js Path to draw a line into it:
+                var path = new paper.Path();
+                // Give the stroke a color
+                path.strokeColor = 'black';
+                var start = new paper.Point(100, 100);
+                // Move to start and draw a line from there
+                path.moveTo(start);
+                // Note that the plus operator on Point objects does not work
+                // in JavaScript. Instead, we need to call the add() function:
+                path.lineTo(start.add([ 200, -50 ]));
+                // Draw the view now:
+                paper.view.draw();
+
+
+
+            }
+
+
+        </script>
+    </head>
+    <body>
+        <div id="canvascontainer">
+            <div id="paper" style="border: 1px solid">
+                <canvas id="paperc" resize></canvas>
+            </div>
+        </div>
+    </body>
+</html>
+
