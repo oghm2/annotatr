@@ -3,6 +3,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <title>Annotation test</title>
+        <link href="css/jquery-ui-1.10.0.custom.min.css" rel="stylesheet">
         <style type="text/css" media="screen">
             #canvascontainer {
                 height: 300px;
@@ -25,6 +26,8 @@
         </style>
         <script type="text/javascript" src="js/jquery.js" charset="utf-8"></script>
         <script type="text/javascript" src="js/paper.js"></script>
+        <script src="js/jquery-ui-1.10.0.custom.min.js"></script>
+
         <script type="text/javascript" charset="utf-8">
 
             var draw_mode = 0;
@@ -108,12 +111,36 @@
                 // Draw the view now:
                 paper.view.draw();
 
+                show_toolbox();
             });
+
+
+function show_toolbox() {
+    "use strict";
+
+    var d = $("div#toolbox").dialog({
+        close: function() {
+        },
+        open: function() {
+            //remove focus from the default button
+            $('.ui-dialog :button').blur();
+        },
+        resizable: false,
+        width: "368px"
+    });
+//    $(d).dialog('widget')
+//        .position({ my: 'right top', at: 'right top', of: $("div#counterbox") });
+}
+
+
         </script>
     </head>
     <body>
         <div id="canvascontainer">
-            <div id="paper" style="border: 1px solid">
+            <div id="toolbox" style="float:left;">
+                <div>a</div>
+            </div>
+            <div id="paper" style="border: 1px solid;">
                 <canvas id="paperc" resize></canvas>
             </div>
         </div>
