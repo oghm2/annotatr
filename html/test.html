@@ -8,16 +8,22 @@
                 height: 300px;
                 left: 50%;
                 margin: -150px 0 0 -300px;
-                position: absolute;
+                position: fixed;
                 top: 50%;
                 width: 600px;
             }
-            #paper {
+            #annotations_overlay {
                 height: 300px;
                 left: 0;
                 position: absolute;
                 top: 0;
                 width: 300px;
+                border: 1px solid;
+            }
+            #annotated_image {
+                position: absolute;
+                top: 1px;
+                left: 1px;
             }
             h2 {
                 text-align: center;
@@ -34,29 +40,13 @@
             $(document).ready(function() {
                 "use strict";
                 // Get a reference to the canvas object
-                var canvas = $('#paperc')[0];
-                //var canvas = document.getElementById('paperc');
+                var canvas = $('#annotations_overlay')[0];
+                //var canvas = document.getElementById('annotations_overlay');
 
                 // Create an empty project and a view for the canvas:
                 paper.setup(canvas);
-                // Create a Paper.js Path to draw a line into it:
-                var path = new paper.Path();
-                // Give the stroke a color
-                path.strokeColor = 'black';
-                var start = new paper.Point(100, 100);
-                // Move to start and draw a line from there
-                path.moveTo(start);
-                // Note that the plus operator on Point objects does not work
-                // in JavaScript. Instead, we need to call the add() function:
-                path.lineTo(start.add([ 200, -50 ]));
 
-                var textItem = new paper.PointText({
-                    content: 'Click and drag to draw a line.',
-                    point: new paper.Point(20, 30),
-                    fillColor: 'black',
-                });
-
-                $('#paperc').mousedown(function(event){
+                $('#annotations_overlay').mousedown(function(event){
                     // If we produced a drawnpath before, deselect it:
                     if (drawnpath) {
                         drawnpath.selected = false;
@@ -75,19 +65,15 @@
 
                 // While the user drags the mouse, points are added to the drawnpath
                 // at the position of the mouse:
-                $('#paperc').mousemove(function (event) {
+                $('#annotations_overlay').mousemove(function (event) {
                     if (drawnpath && drawnpath.active) {
                         drawnpath.add(new paper.Point(event.offsetX, event.offsetY));
-
-                        // Update the content of the text item to show how many
-                        // segments it has:
-                        textItem.content = 'Segment count: ' + drawnpath.segments.length;
                         paper.view.draw();
                     };
                 });
 
                 // When the mouse is released, we simplify the drawnpath:
-                $('#paperc').mouseup(function (event) {
+                $('#annotations_overlay').mouseup(function (event) {
                     var segmentCount = drawnpath.segments.length;
                     drawnpath.active = false;
 
@@ -100,7 +86,6 @@
                     var newSegmentCount = drawnpath.segments.length;
                     var difference = segmentCount - newSegmentCount;
                     var percentage = 100 - Math.round(newSegmentCount / segmentCount * 100);
-                    textItem.content = difference + ' of the ' + segmentCount + ' segments were removed. Saving ' + percentage + '%';
                     paper.view.draw();
                 });
 
@@ -113,9 +98,8 @@
     </head>
     <body>
         <div id="canvascontainer">
-            <div id="paper" style="border: 1px solid">
-                <canvas id="paperc" resize></canvas>
-            </div>
+            <img id="annotated_image" src="ducks.png"/>
+            <canvas id="annotations_overlay"></canvas>
         </div>
     </body>
 </html>
