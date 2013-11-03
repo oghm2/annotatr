@@ -38,6 +38,17 @@
             var draw_mode = 0;
             var drawnpath;
 
+            var tool_list = [
+                           {name: "pen",
+                            icon: "icons/pen.svg",
+                            src: "js/tools/pen.js"},
+                           {name: "square",
+                            icon: "icons/square.svg",
+                            src: "js/tools/square.js"}
+                        ];
+
+            var tools = {};
+
             // Only executed our code once the DOM is ready.
             $(document).ready(function() {
                 "use strict";
@@ -101,34 +112,52 @@
                 // Draw the view now:
                 paper.view.draw();
 
-                show_toolbox();
+                load_toolbox();
             });
 
 
-function show_toolbox() {
-    "use strict";
+    function load_toolbox() {
+        "use strict";
 
-    var d = $("div#toolbox").dialog({
-        close: function() {
-        },
-        open: function() {
-            //remove focus from the default button
-            $('.ui-dialog :button').blur();
-        },
-        resizable: false,
-        width: "68px"
-    });
-    $(d).dialog('widget')
-        .position({ my: 'right top', at: 'left top', of: $("div#canvascontainer") });
-}
+        // load the javascript
+        for(var i in tool_list) {
+            var name = tool_list[i].name;
+            var src = tool_list[i].src;
+            console.log(name);
+            $.getScript(src, function(){
+                //console.log(data);
+                //alert("Script loaded and executed.");
+                // Here you can use anything you defined in the loaded script
+                //console.log(name);
+                //tools[name].selected();
+            });
+        }
 
+        // build the toolbox icons
+        $("div#toolbox").empty();
+        for(var i in tool_list) {
+            var item = '<div id="' + tool_list[i].name + '" style="width: 48px; height: 48px; display: block; background: url(\'' + tool_list[i].icon + '\'); background-size: 48px, 48px"></div>';
+            $("div#toolbox").append(item);
+        }
+
+        var d = $("div#toolbox").dialog({
+            close: function() {
+            },
+            open: function() {
+                //remove focus from the default button
+                $('.ui-dialog :button').blur();
+            },
+            resizable: false,
+            width: "68px"
+        });
+        $(d).dialog('widget')
+            .position({ my: 'right top', at: 'left top', of: $("div#canvascontainer") });
+    }
 
         </script>
     </head>
     <body>
-        <div id="toolbox">
-            <div>a</div>
-        </div>
+        <div id="toolbox"></div>
         <div id="canvascontainer">
             <img id="annotated_image" src="ducks.png"/>
             <canvas id="annotations_overlay"></canvas>
