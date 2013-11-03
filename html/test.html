@@ -81,6 +81,13 @@
 
                 paper.setup(canvas);
 
+                $('#annotations_overlay').click(function(event){
+                    if (selected_tool && selected_tool.click) {
+                        evFixup(event);
+                        selected_tool.click(event);
+                    }
+                });
+
                 $('#annotations_overlay').mousedown(function(event){
                     if (selected_tool && selected_tool.mousedown) {
                         evFixup(event);
