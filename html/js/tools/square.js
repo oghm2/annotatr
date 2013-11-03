@@ -10,6 +10,8 @@ var square = {
     mousedown: function(event) {
         // If we produced a drawnpath before, deselect it:
         if (this.start) {
+            //remove the display rectangle
+            this.square.remove();
             //complete a rectangle
             var shape = new paper.Path.Rectangle(this.start, event.point);
             shape.strokeColor = 'black';
