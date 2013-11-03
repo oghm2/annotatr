@@ -143,7 +143,8 @@
                     //alert("Script loaded and executed.");
                     // Here you can use anything you defined in the loaded script
                     console.log(name);
-                    tools[name].loaded();
+                    if(tools[name].loaded)
+                        tools[name].loaded();
                     $("div#toolbox").find("#" + name).on("click", {name: name}, select_tool);
                     if(i == 0)
                         select_tool({data: {name: name}});
