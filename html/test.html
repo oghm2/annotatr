@@ -88,6 +88,16 @@
                     }
                 });
 
+                $('#annotations_overlay')
+                        .attr("tabindex", "0")
+                        .mousedown(function(){ $(this).focus(); return false; })
+                        .keydown(function(event){
+                    if (selected_tool && selected_tool.keydown) {
+                        evFixup(event);
+                        selected_tool.keydown(event);
+                    }
+                });
+
                 $('#annotations_overlay').mousedown(function(event){
                     if (selected_tool && selected_tool.mousedown) {
                         evFixup(event);

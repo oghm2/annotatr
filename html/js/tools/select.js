@@ -34,6 +34,13 @@ var select = {
             select_item(this.state.selected_item);
         paper.view.draw();
     },
+    keydown: function(event) {
+        if (event.which == 46 && this.state.selected_item) {
+            this.state.selected_item.remove();
+            this.state.selected_item = undefined;
+            paper.view.draw();
+        }
+    },
     mousedown: function(event) {
         this.state.drag_item = this.state.highlighted_item;
         this.state.drag_point = event.point;
