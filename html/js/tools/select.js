@@ -32,6 +32,7 @@ var select = {
         this.state.selected_item = this.state.highlighted_item;
         if(this.state.selected_item)
             select_item(this.state.selected_item);
+        paper.view.draw();
     },
     mousemove: function(event) {
         var new_highlighted_item = undefined;
