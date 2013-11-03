@@ -117,8 +117,8 @@
                 load_toolbox();
             });
 
-    function select_tool(name) {
-        selected_tool = tools[name];
+    function select_tool(event) {
+        selected_tool = tools[event.data.name];
         selected_tool.selected();
     }
 
@@ -139,7 +139,7 @@
                     // Here you can use anything you defined in the loaded script
                     console.log(name);
                     tools[name].loaded();
-                    $("div#toolbox").find("#" + name).on("click", select_tool(name));
+                    $("div#toolbox").find("#" + name).on("click", {name: name}, select_tool);
                 });
             }
             tmp(name);
