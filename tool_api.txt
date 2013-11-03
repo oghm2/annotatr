@@ -15,5 +15,6 @@ Each tool requires a JavaScript file to define the functionality of the tool. Th
     # mousedown(event) - called on mouse down in the canvas
     # mousemove(event) - called on mouse move in the canvas
     # mouseup(event) - called on mouse up in the canvas
+    # keydown(event) - called on key down in the canvas
 
 
