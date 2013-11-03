@@ -8,9 +8,8 @@
             #canvascontainer {
                 height: 300px;
                 left: 50%;
-                margin: -150px 0 0 -300px;
-                position: fixed;
-                top: 50%;
+                margin: -100px 0 0 -300px;
+                position: fixed; top: 50%;
                 width: 600px;
             }
             #annotations_overlay {
@@ -42,11 +41,16 @@
             // Only executed our code once the DOM is ready.
             $(document).ready(function() {
                 "use strict";
-                // Get a reference to the canvas object
                 var canvas = $('#annotations_overlay')[0];
-                //var canvas = document.getElementById('annotations_overlay');
 
-                // Create an empty project and a view for the canvas:
+                function getMousePos(canvas, evt) {
+                    var rect = canvas.getBoundingClientRect();
+                    return {
+                        x: evt.clientX - rect.left,
+                        y: evt.clientY - rect.top
+                    };
+                };
+
                 paper.setup(canvas);
 
                 $('#annotations_overlay').mousedown(function(event){
@@ -55,11 +59,10 @@
                         drawnpath.selected = false;
                     }
 
-                    // Create a new drawnpath and set its stroke color to black:
+                    var p = getMousePos(canvas, event);
                     drawnpath = new paper.Path({
-                        segments: [new paper.Point(event.offsetX, event.offsetY)],
+                        segments: [new paper.Point(p.x, p.y)],
                         strokeColor: 'black',
-                        // Select the drawnpath, so we can see its segment points:
                         fullySelected: true
                     });
                     drawnpath.active = true;
@@ -70,7 +73,8 @@
                 // at the position of the mouse:
                 $('#annotations_overlay').mousemove(function (event) {
                     if (drawnpath && drawnpath.active) {
-                        drawnpath.add(new paper.Point(event.offsetX, event.offsetY));
+                        var p = getMousePos(canvas, event);
+                        drawnpath.add(new paper.Point(p.x, p.y));
                         paper.view.draw();
                     };
                 });
