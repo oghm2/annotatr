@@ -124,13 +124,18 @@
             var name = tool_list[i].name;
             var src = tool_list[i].src;
             console.log(name);
-            $.getScript(src, function(){
-                //console.log(data);
-                //alert("Script loaded and executed.");
-                // Here you can use anything you defined in the loaded script
-                //console.log(name);
-                //tools[name].selected();
-            });
+            var tmp = function(name){
+                var name = name;
+                $.getScript(src, function(){
+                    //console.log(data);
+                    //alert("Script loaded and executed.");
+                    // Here you can use anything you defined in the loaded script
+                    console.log(name);
+                    tools[name].loaded();
+                    $("div#toolbox").find("#" + name).on("click", tools[name].selected);
+                });
+            }
+            tmp(name);
         }
 
         // build the toolbox icons
@@ -139,6 +144,10 @@
             var item = '<div id="' + tool_list[i].name + '" style="width: 48px; height: 48px; display: block; background: url(\'' + tool_list[i].icon + '\'); background-size: 48px, 48px"></div>';
             $("div#toolbox").append(item);
         }
+        
+        for(var i in tool_list) {
+        }
+            
 
         var d = $("div#toolbox").dialog({
             close: function() {
