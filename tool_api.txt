@@ -1,0 +1,18 @@
+Tool API
+========
+
+Tools are added to the "tools" variable. The required fields are:
+
+    # name - name of the tool
+    # src  - path to JavaScript source file
+    # icon - path to icon file (preferably SVG)
+
+Each tool requires a JavaScript file to define the functionality of the tool. The functions that will be called are:
+
+    # selected(div) - called when the tool is selected in the toolbox
+    # deselected(div) - called when the tool is deselected in the toolbox (another tool is selected)
+    # mousedown(event) - called on mouse down in the canvas
+    # mousemove(event) - called on mouse move in the canvas
+    # mouseup(event) - called on mouse up in the canvas
+
+
