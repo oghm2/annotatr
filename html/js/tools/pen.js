@@ -35,9 +35,11 @@ var pen = {
         var b = this.path.bounds;
         var p1 = this.path.firstSegment.point;
         var p2 = this.path.lastSegment.point;
-        if ((b.width + b.height)/7 > p1.getDistance(p2)) {
+        if ((b.width + b.height)/7 > p1.getDistance(p2)
+                && this.path.segments.length > 2) {
             this.path.add(p1);
             this.path.closed = true;
+            this.path.fillColor = new paper.Color(0,0,0,0);
         }
         this.path.simplify(10);
         paper.view.draw();
