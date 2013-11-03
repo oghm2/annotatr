@@ -111,6 +111,8 @@
 
     function select_tool(event) {
         var name = event.data.name;
+        if(selected_tool && selected_tool.deselected)
+            selected_tool.deselected();
         selected_tool = tools[name];
         selected_tool.selected();
         $("div#toolbox").find(".selected").removeClass("selected");
@@ -126,8 +128,9 @@
             var name = tool_list[i].name;
             var src = tool_list[i].src;
             console.log(name);
-            var tmp = function(name){
+            var tmp = function(name, i){
                 var name = name;
+                var i = i;
                 $.getScript(src, function(){
                     //console.log(data);
                     //alert("Script loaded and executed.");
@@ -135,9 +138,11 @@
                     console.log(name);
                     tools[name].loaded();
                     $("div#toolbox").find("#" + name).on("click", {name: name}, select_tool);
+                    if(i == 0)
+                        select_tool({data: {name: name}});
                 });
             }
-            tmp(name);
+            tmp(name, i);
         }
 
         // build the toolbox icons
