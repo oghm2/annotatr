@@ -86,14 +86,14 @@
                     drawnpath.active = false;
 
                     // When the mouse is released, simplify it:
+                    var b = drawnpath.bounds;
+                    var p1 = drawnpath.firstSegment.point;
+                    var p2 = drawnpath.lastSegment.point;
+                    if ((b.width + b.height)/7 > p1.getDistance(p2)) {
+                        drawnpath.add(p1);
+                        drawnpath.closed = true;
+                    }
                     drawnpath.simplify(10);
-
-                    // Select the drawnpath, so we can see its segments:
-                    drawnpath.fullySelected = false;
-
-                    var newSegmentCount = drawnpath.segments.length;
-                    var difference = segmentCount - newSegmentCount;
-                    var percentage = 100 - Math.round(newSegmentCount / segmentCount * 100);
                     paper.view.draw();
                 });
 
