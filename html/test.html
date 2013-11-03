@@ -50,64 +50,50 @@
             var tools = {};
 
             var selected_tool;
+            var canvas;
+
+            function getMousePos(canvas, evt) {
+                var rect = canvas.getBoundingClientRect();
+                return {
+                    x: evt.clientX - rect.left,
+                    y: evt.clientY - rect.top
+                };
+            };
+            function getMousePoint(canvas, evt) {
+                var tmp = getMousePos(canvas, evt);
+                return new paper.Point(tmp.x, tmp.y);
+            }
+            function evFixup(event) {
+                event.point = getMousePoint(canvas, event);
+            }
 
             // Only executed our code once the DOM is ready.
             $(document).ready(function() {
                 "use strict";
-                var canvas = $('#annotations_overlay')[0];
 
-                function getMousePos(canvas, evt) {
-                    var rect = canvas.getBoundingClientRect();
-                    return {
-                        x: evt.clientX - rect.left,
-                        y: evt.clientY - rect.top
-                    };
-                };
+                canvas = $('#annotations_overlay')[0];
 
                 paper.setup(canvas);
 
                 $('#annotations_overlay').mousedown(function(event){
-                    // If we produced a drawnpath before, deselect it:
-                    if (drawnpath) {
-                        drawnpath.selected = false;
+                    if (selected_tool && selected_tool.mousedown) {
+                        evFixup(event);
+                        selected_tool.mousedown(event);
                     }
-
-                    var p = getMousePos(canvas, event);
-                    drawnpath = new paper.Path({
-                        segments: [new paper.Point(p.x, p.y)],
-                        strokeColor: 'red',
-                        strokeWidth: 3,
-                        fullySelected: false
-                    });
-                    drawnpath.active = true;
-                    paper.view.draw();
                 });
 
-                // While the user drags the mouse, points are added to the drawnpath
-                // at the position of the mouse:
                 $('#annotations_overlay').mousemove(function (event) {
-                    if (drawnpath && drawnpath.active) {
-                        var p = getMousePos(canvas, event);
-                        drawnpath.add(new paper.Point(p.x, p.y));
-                        paper.view.draw();
-                    };
+                    if (selected_tool && selected_tool.mousemove) {
+                        evFixup(event);
+                        selected_tool.mousemove(event);
+                    }
                 });
 
-                // When the mouse is released, we simplify the drawnpath:
                 $('#annotations_overlay').mouseup(function (event) {
-                    var segmentCount = drawnpath.segments.length;
-                    drawnpath.active = false;
-
-                    // When the mouse is released, simplify it:
-                    var b = drawnpath.bounds;
-                    var p1 = drawnpath.firstSegment.point;
-                    var p2 = drawnpath.lastSegment.point;
-                    if ((b.width + b.height)/7 > p1.getDistance(p2)) {
-                        drawnpath.add(p1);
-                        drawnpath.closed = true;
+                    if (selected_tool && selected_tool.mouseup) {
+                        evFixup(event);
+                        selected_tool.mouseup(event);
                     }
-                    drawnpath.simplify(10);
-                    paper.view.draw();
                 });
 
 
