@@ -49,6 +49,8 @@
 
             var tools = {};
 
+            var selected_tool;
+
             // Only executed our code once the DOM is ready.
             $(document).ready(function() {
                 "use strict";
@@ -115,6 +117,11 @@
                 load_toolbox();
             });
 
+    function select_tool(name) {
+        selected_tool = tools[name];
+        selected_tool.selected();
+    }
+
 
     function load_toolbox() {
         "use strict";
@@ -132,7 +139,7 @@
                     // Here you can use anything you defined in the loaded script
                     console.log(name);
                     tools[name].loaded();
-                    $("div#toolbox").find("#" + name).on("click", tools[name].selected);
+                    $("div#toolbox").find("#" + name).on("click", select_tool(name));
                 });
             }
             tmp(name);

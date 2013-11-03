@@ -9,6 +9,7 @@ Tools are added to the "tools" variable. The required fields are:
 
 Each tool requires a JavaScript file to define the functionality of the tool. The functions that will be called are:
 
+    # loaded() - called when the tool is first loaded
     # selected(div) - called when the tool is selected in the toolbox
     # deselected(div) - called when the tool is deselected in the toolbox (another tool is selected)
     # mousedown(event) - called on mouse down in the canvas
