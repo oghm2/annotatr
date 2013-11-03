@@ -62,8 +62,9 @@
                     var p = getMousePos(canvas, event);
                     drawnpath = new paper.Path({
                         segments: [new paper.Point(p.x, p.y)],
-                        strokeColor: 'black',
-                        fullySelected: true
+                        strokeColor: 'red',
+                        strokeWidth: 3,
+                        fullySelected: false
                     });
                     drawnpath.active = true;
                     paper.view.draw();
@@ -88,7 +89,7 @@
                     drawnpath.simplify(10);
 
                     // Select the drawnpath, so we can see its segments:
-                    drawnpath.fullySelected = true;
+                    drawnpath.fullySelected = false;
 
                     var newSegmentCount = drawnpath.segments.length;
                     var difference = segmentCount - newSegmentCount;
