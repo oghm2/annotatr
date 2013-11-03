@@ -25,6 +25,9 @@
                 top: 1px;
                 left: 1px;
             }
+            div.selected {
+                border: 2px solid;
+            }
             h2 {
                 text-align: center;
             }
@@ -104,8 +107,11 @@
             });
 
     function select_tool(event) {
-        selected_tool = tools[event.data.name];
+        var name = event.data.name;
+        selected_tool = tools[name];
         selected_tool.selected();
+        $("div#toolbox").find(".selected").removeClass("selected");
+        $("div#toolbox").find("#" + name).addClass("selected");
     }
 
 
@@ -150,7 +156,7 @@
                 $('.ui-dialog :button').blur();
             },
             resizable: false,
-            width: "68px"
+            width: "70px"
         });
         $(d).dialog('widget')
             .position({ my: 'right top', at: 'left top', of: $("div#canvascontainer") });
